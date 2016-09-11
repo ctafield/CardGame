@@ -2,9 +2,8 @@ var CardModel = require('./Card.js');
 var Stack = require('./Stack.js');
 
 class Deck {
-  constructor(name) {
-    this.name = name;
-    this.deck = new Stack();
+  constructor() {
+    this.deck = new Stack(); // cards left that can be drawn
   }
 
   initializeDeck() {
@@ -50,6 +49,10 @@ class Deck {
 
   takeNextCard() {
     return this.deck.pop();
+  }  
+
+  topCard() {
+    return this.deck.peek();
   }
 }
 
