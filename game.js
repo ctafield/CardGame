@@ -1,10 +1,13 @@
 var PlayerModel = require('./PlayerModel');
 var Deck = require('./Deck');
+var Logic = require('./Logic');
 
 class Game {
   constructor() {
     this.players = [];
     this.deck = new Deck();
+    this.pile = []; // discarded cards
+    this.logic = new Logic();
   }
 
   addPlayer(name) {
@@ -29,7 +32,7 @@ class Game {
   dealCards() {
     const initialCardCount = 8;
     this.players.forEach((player) => {
-      for (var i = 0; i < initialCardCount; i++ ) {
+      for (var i = 0; i < initialCardCount; i++) {
         var card = this.deck.takeNextCard();
         player.giveCard(card);
       }
@@ -40,6 +43,14 @@ class Game {
     delete this.players;
     players = [];
     return 'game ended';
+  }
+
+  playCard(playerCard) {
+    var topCard = this.deck.topCard();
+    if (!this.logic.canPlayCard(playerCard, topCard)) {
+      return false;
+    }
+    return true;
   }
 }
 
