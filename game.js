@@ -1,6 +1,6 @@
 var PlayerModel = require('./PlayerModel');
 var Deck = require('./Deck');
-var Logic = require('.Logic');
+var Logic = require('./Logic');
 
 class Game {
   constructor() {
