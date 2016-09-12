@@ -15,7 +15,7 @@ class Game {
         return 'player quota full';
     }
     this.players.push(new PlayerModel(name));
-    return 'player has joined. there are ' + this.players.length + ' players.';
+    return name + ' has joined. there are ' + this.players.length + ' players.';
   };
 
   startGame() {
