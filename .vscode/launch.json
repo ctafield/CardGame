@@ -9,7 +9,7 @@
       "stopOnEntry": false,
       "args": [],
       "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
+      "preLaunchTask": "runwebpack",
       "runtimeExecutable": null,
       "runtimeArgs": [
         "--nolazy"

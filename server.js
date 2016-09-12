@@ -50,7 +50,8 @@ apiRouter.get('/', function(req, res) {
 // more routes for our API will happen here
 apiRouter.route('/player')
     .put(function(req, res) {
-        var result = game.addPlayer();
+        if (!req.body) return res.sendStatus(400);
+        var result = game.addPlayer(req.body.name);
         res.json({message: result});
     })
     .delete(function(req, res) {

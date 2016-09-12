@@ -61,7 +61,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -69,7 +69,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players_jsx__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players_jsx__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players_jsx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__players_jsx__);
 
 
@@ -84,26 +84,26 @@ module.exports = class Index extends React.Component {
 /* 1 */
 /***/ function(module, exports) {
 
-module.exports = class Player extends React.Component {
+module.exports = class GameClient {
 
-  _joinGame(event) {
-    console.log('gonna join');
+  playerJoin(name, finished) {
+    console.log('player is joining: ' + name);
+    var data = {
+      name: name
+    };
+    $.ajax({
+      method: 'PUT',
+      url: 'http://localhost:8080/api/player',
+      data: data
+    }).done(result => {
+      console.log('done: ' + JSON.stringify(result));
+      if (finished) finished(true);
+    }).fail(result => {
+      console.log('failed: ' + JSON.stringify(result));
+      if (finished) finished(false);
+    });
   }
 
-  render() {
-    var state = '';
-    if (this.props.joined !== true) {
-      state = 'Join ' + this.props.name;
-    } else {
-      state = 'Ready ' + this.props.name;
-    }
-
-    return React.createElement(
-      'button',
-      { onClick: this._joinGame.bind(this) },
-      state
-    );
-  }
 };
 
 /***/ },
@@ -111,7 +111,55 @@ module.exports = class Player extends React.Component {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_jsx__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__client_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__client_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__client_js__);
+
+
+module.exports = class Player extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      joined: false,
+      name: this.props.name
+    };
+  }
+
+  _joined(result) {
+    if (result) {
+      this.setState({ joined: true });
+    }
+  }
+
+  _joinGame(event) {
+    new __WEBPACK_IMPORTED_MODULE_0__client_js___default.a().playerJoin(this.props.name, this._joined.bind(this));
+  }
+
+  render() {
+    var state = '';
+    var disabled = false;
+
+    if (this.state.joined !== true) {
+      state = 'Join ' + this.state.name;
+    } else {
+      state = 'Ready ' + this.state.name;
+      disabled = true;
+    }
+
+    return React.createElement(
+      'button',
+      { onClick: this._joinGame.bind(this), disabled: disabled },
+      state
+    );
+  }
+};
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_jsx__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_jsx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__player_jsx__);
 
 
@@ -130,7 +178,7 @@ module.exports = class Players extends React.Component {
 };
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 var Index = __webpack_require__(0);
