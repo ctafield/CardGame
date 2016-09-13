@@ -8,7 +8,7 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 
 var bodyParser = require('body-parser');
-var Game       = require('./game.js');
+var Game       = require('./server/game.js');
 var game       = new Game();
 
 app.use(express.static('public'));

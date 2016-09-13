@@ -5,14 +5,18 @@ module.exports = class Player extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      joined: false,
+      hasJoined: false,
       name: this.props.name
     };
   }
 
   _joined(result) {
     if (result) {
-      this.setState({joined: true});
+      this.setState({ hasJoined: true },
+        () => { if (this.props.joined) {
+          this.props.joined();  
+          }
+        });
     }
   }
 
@@ -24,7 +28,7 @@ module.exports = class Player extends React.Component {
     var state = '';
     var disabled = false;
 
-    if (this.state.joined !== true) {
+    if (this.state.hasJoined !== true) {
       state = 'Join ' + this.state.name;
     } else {
       state = 'Ready ' + this.state.name;

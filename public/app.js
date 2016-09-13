@@ -75,8 +75,12 @@
 
 module.exports = class Index extends React.Component {
 
+  _playedJoined(player) {
+    console.log('player joined:' + player);
+  }
+
   render() {
-    return React.createElement(__WEBPACK_IMPORTED_MODULE_0__players_jsx___default.a, null);
+    return React.createElement(__WEBPACK_IMPORTED_MODULE_0__players_jsx___default.a, { joined: this._playedJoined });
   }
 };
 
@@ -120,14 +124,18 @@ module.exports = class Player extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      joined: false,
+      hasJoined: false,
       name: this.props.name
     };
   }
 
   _joined(result) {
     if (result) {
-      this.setState({ joined: true });
+      this.setState({ hasJoined: true }, () => {
+        if (this.props.joined) {
+          this.props.joined();
+        }
+      });
     }
   }
 
@@ -139,7 +147,7 @@ module.exports = class Player extends React.Component {
     var state = '';
     var disabled = false;
 
-    if (this.state.joined !== true) {
+    if (this.state.hasJoined !== true) {
       state = 'Join ' + this.state.name;
     } else {
       state = 'Ready ' + this.state.name;
@@ -169,10 +177,10 @@ module.exports = class Players extends React.Component {
     return React.createElement(
       'div',
       null,
-      React.createElement(__WEBPACK_IMPORTED_MODULE_0__player_jsx___default.a, { name: 'Player 1' }),
-      React.createElement(__WEBPACK_IMPORTED_MODULE_0__player_jsx___default.a, { name: 'Player 2' }),
-      React.createElement(__WEBPACK_IMPORTED_MODULE_0__player_jsx___default.a, { name: 'Player 3' }),
-      React.createElement(__WEBPACK_IMPORTED_MODULE_0__player_jsx___default.a, { name: 'Player 4' })
+      React.createElement(__WEBPACK_IMPORTED_MODULE_0__player_jsx___default.a, { name: 'Player 1', joined: this.props.joined(1) }),
+      React.createElement(__WEBPACK_IMPORTED_MODULE_0__player_jsx___default.a, { name: 'Player 2', joined: this.props.joined(2) }),
+      React.createElement(__WEBPACK_IMPORTED_MODULE_0__player_jsx___default.a, { name: 'Player 3', joined: this.props.joined(3) }),
+      React.createElement(__WEBPACK_IMPORTED_MODULE_0__player_jsx___default.a, { name: 'Player 4', joined: this.props.joined(4) })
     );
   }
 };
