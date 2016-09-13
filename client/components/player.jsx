@@ -8,20 +8,22 @@ module.exports = class Player extends React.Component {
       hasJoined: false,
       name: this.props.name
     };
+    this.client = new client();
   }
 
   _joined(result) {
     if (result) {
       this.setState({ hasJoined: true },
-        () => { if (this.props.joined) {
-          this.props.joined();  
+        () => { 
+          if (this.props.joined) {
+            this.props.joined();  
           }
         });
     }
   }
 
   _joinGame(event) {
-    new client().playerJoin(this.props.name, this._joined.bind(this));
+    this.client.playerJoin(this.props.name, this._joined.bind(this));
   }
 
   render() {
